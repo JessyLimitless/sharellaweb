@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대여소 위치</title>
+    <!-- Font Awesome CDN 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%; /* 전체 높이를 100%로 설정 */
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #5947c0;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #5A9BD4;
+            font-size: 1rem; /* 폰트 크기 살짝 확대 */
+            padding-bottom: 5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #7B68EE;
+        }
+
+        .menu a.active {
+            color: #6A5ACD;
+            font-weight: bold;
+        }
+
+        .menu a.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #6A5ACD;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .login-btn {
+            background-color: #6A5ACD;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #5B4EBF;
+        }
+
+        .container {
+            display: flex;
+            width: 90%; /* 화면의 90%를 차지하도록 확장 */
+            max-width: 1200px;
+            background-color: #fff;
+            border-radius: 16px; /* 전체 컨테이너의 모서리 둥글게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+            flex-grow: 1;
+            gap: 20px; /* 섹션 사이 간격 추가 */
+        }
+
+        .left-section {
+            width: 35%; /* 왼쪽 섹션의 비율을 설정 */
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff, #cfe9ff); /* 그라데이션 추가 */
+            border-radius: 16px; /* 모든 코너를 둥글게 */
+            border-right: 1px solid #eaeaea;
+        }
+
+        .image-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .image-box img {
+            width: 240px;
+            height: auto;
+            border-radius: 16px;
+        }
+
+        .info-box {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .info-box h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .info-box p {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 30px; /* 클래스 팔로우와 간격 추가 */
+        }
+        
+
+        .find-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #09aa5c;
+            color: #fff;
+            text-align: center;
+            border-radius: 30px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .find-btn:hover {
+            background-color: #035a31;
+        }
+
+        .follow {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 10px; /* 여백을 줄임 */
+        }
+
+        .follow img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .footer-links {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px; /* 여백을 줄여서 더 간결하게 */
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #888;
+        }
+
+        .footer-links a:hover {
+            color: #555;
+        }
+
+        /* 맵 섹션 확대 */
+        .map-section {
+            flex: 1.5; /* 비율을 20% 정도 확장 */
+            background-color: #f2f2f2;
+            position: relative;
+        }
+
+        .map-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .map-header {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .map-header button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .map-header button:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* 한림성심대 버튼만 라벤더 색으로 고정 */
+        #hallym-sungsim-btn {
+            background-color: #6A5ACD; /* 라벤더 색상 */
+            color: white; /* 텍스트 색상을 흰색으로 고정 */
+            border: 1px solid #6A5ACD;
+        }
+
+        /* 아이콘 컨테이너 스타일 */
+        .icon-container {
+            position: absolute;
+            top: 10%;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .icon-container .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .icon i {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .icon:hover {
+            background-color: #ddd;
+        }
+
+        footer {
+            background-color: #fff;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .footer-menu {
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+            color: #747373;
+        }
+
+        .footer-menu span {
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .footer-follow {
+            font-size: 1.2rem;
+            color: #575555;
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .footer-menu {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .footer-follow {
+                justify-content: center;
+            }
+
+            header {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .menu {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .container {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .left-section {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 (상단바) -->
+    <header>
+        <div class="logo">
+            <img src="sharellarlogo.png" alt="UPbrella Logo">
+            <p>Sharella</p>
+        </div>
+        <nav class="menu">
+            <a href="index.html" class="menu-item">Sharella 이야기</a>
+            <a href="test.html" class="menu-item active">대여소 위치</a>
+            <a href="test2.html" class="menu-item">협업 지점 소개</a>
+            <button class="login-btn" onclick="location.href='logtest.html'">로그인</button>
+        </nav>
+    </header>
+
+    <!-- 바디 섹션 -->
+    <div class="container">
+        <div class="left-section">
+            <div class="image-box">
+                <img src="대여장소 이미지.png" alt="우산 대여 장소">
+            </div>
+            <div class="info-box">
+                <h2>한빛도서관</h2>
+                <p>한림성심대</p>
+                <a href="#" class="find-btn">네이버 길찾기</a>
+                <p>대여가능 우산 : <span style="color: red;">현재 11개</span></p>
+                <p>강원특별자치도 춘천시 동면 장학길 48</p>
+            </div>
+            <div class="follow">
+                <img src="instagram.png" alt="Instagram">
+                <img src="youtube.png" alt="YouTube">
+                <img src="kakao.png" alt="Kakao">
+            </div>
+            <div class="footer-links">
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">CONTACT_US</a>
+            </div>
+        </div>
+        <div class="map-section">
+            <img src="지도 이미지.png" alt="지도 이미지">
+            <div class="map-header">
+                <button>한림대</button>
+                <button>강원대</button>
+                <button>춘천교대</button>
+                <button id="hallym-sungsim-btn">한림성심대</button>
+            </div>
+            <!-- 아이콘 컨테이너 -->
+            <div class="icon-container">
+                <div class="icon">
+                    <i class="fas fa-crosshairs"></i> <!-- 타겟 아이콘 -->
+                </div>
+                <div class="icon">
+                    <i class="fas fa-sync-alt"></i> <!-- 리프레시 아이콘 -->
+                </div>
+                <div class="icon">
+                    <i class="fas fa-question"></i> <!-- 물음표 아이콘 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 (하단 영역) -->
+    <footer>
+        <div class="footer-menu">
+            <span>이용약관</span>
+            <span>개인정보처리방침</span>
+            <span>CONTACT_US</span>
+        </div>
+        <div class="footer-follow">
+            FOLLOW US
+        </div>
+    </footer>
+
+    <script>
+        // 메뉴 클릭 시 active 클래스 토글
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(event) {
+                document.querySelectorAll('.menu-item').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

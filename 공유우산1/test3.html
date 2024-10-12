@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대여 장소</title>
+    <!-- Font Awesome CDN 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%; /* 전체 높이를 100%로 설정 */
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #5947c0;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #5A9BD4;
+            font-size: 1rem; /* 폰트 크기 살짝 확대 */
+            padding-bottom: 5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #7B68EE;
+        }
+
+        .menu a.active {
+            color: #6A5ACD;
+            font-weight: bold;
+        }
+
+        .menu a.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #6A5ACD;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .login-btn {
+            background-color: #6A5ACD;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #5B4EBF;
+        }
+
+        .container {
+            display: flex;
+            width: 90%; /* 화면의 90%를 차지하도록 확장 */
+            max-width: 1200px;
+            background-color: #fff;
+            border-radius: 16px; /* 전체 컨테이너의 모서리 둥글게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+            flex-grow: 1;
+            gap: 20px; /* 섹션 사이 간격 추가 */
+        }
+
+        .left-section {
+            width: 35%; /* 왼쪽 섹션의 비율을 설정 */
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff, #cfe9ff); /* 그라데이션 추가 */
+            border-radius: 16px; /* 모든 코너를 둥글게 */
+            border-right: 1px solid #eaeaea;
+        }
+
+        .image-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .image-box img {
+            width: 240px;
+            height: auto;
+            border-radius: 16px;
+        }
+
+        .info-box {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .info-box h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .info-box p {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 50px; /* 클래스 팔로우와 간격 추가 */
+        }
+        
+
+
+
+
+        .find-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #09aa5c;
+            color: #fff;
+            text-align: center;
+            border-radius: 30px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .find-btn:hover {
+            background-color: #035a31;
+        }
+
+        .follow {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 10px; /* 여백을 줄임 */
+        }
+
+        .follow img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .footer-links {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px; /* 여백을 줄여서 더 간결하게 */
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #888;
+        }
+
+        .footer-links a:hover {
+            color: #555;
+        }
+
+        /* 오른쪽 그리드 섹션 추가 */
+        .right-container {
+            flex: 2;
+            padding: 20px;
+        }
+
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab-menu button {
+            background-color: #fff;
+            border: 1px solid #eaeaea;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #6A5ACD; /* 보라색 텍스트 색상 */
+        }
+
+        .tab-menu button.active {
+            background-color: #6A5ACD; /* 보라색 배경 */
+            border-color: #6A5ACD;
+            color: #fff; /* 하얀색 텍스트 */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
+
+        .grid-item {
+            background-color: #ece8f6; /* 보라색 계열로 변경 */
+            height: 200px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #6A5ACD; /* 보라색 텍스트 */
+            position: relative;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            opacity: 0.8; /* 이미지에 약간 투명도 추가 */
+        }
+
+        .grid-item-text {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background-color: rgba(106, 90, 205, 0.8); /* 보라색 배경 */
+            border-radius: 12px;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            color: white; /* 하얀색 텍스트 */
+        }
+
+        footer {
+            background-color: #fff;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .footer-menu {
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+            color: #747373;
+        }
+
+        .footer-menu span {
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .footer-follow {
+            font-size: 1.2rem;
+            color: #575555;
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .footer-menu {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .footer-follow {
+                justify-content: center;
+            }
+
+            header {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .menu {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .container {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .left-section {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 (상단바) -->
+    <header>
+        <div class="logo">
+            <img src="sharellarlogo.png" alt="UPbrella Logo">
+            <p>Sharella</p>
+        </div>
+        <nav class="menu">
+            <a href="index.html" class="menu-item">Sharella 이야기</a>
+            <a href="test.html" class="menu-item">대여소 위치</a>
+            <a href="test2.html" class="menu-item active">협업 지점 소개</a>
+            <button class="login-btn" onclick="location.href='logtest.html'">로그인</button>
+        </nav>
+    </header>
+
+    <!-- 바디 섹션 -->
+    <div class="container">
+        <div class="left-section">
+            <div class="image-box">
+                <img src="장소1_5.png" alt="우산 대여 장소">
+            </div>
+            <div class="info-box">
+                <h2>남춘천역</h2>
+                <p>승강장 입구</p>
+                <a href="#" class="find-btn">네이버 길찾기</a>
+                <p>대여가능 우산 : 현재 11개</p>
+                <p>대여가능 시간 : 06:00 ~ 24:00</p>
+            </div>
+            <div class="follow">
+                <img src="instagram.png" alt="Instagram">
+                <img src="youtube.png" alt="YouTube">
+                <img src="kakao.png" alt="Kakao">
+            </div>
+            <div class="footer-links">
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">CONTACT_US</a>
+            </div>
+        </div>
+
+        <!-- 그리드 섹션 -->
+        <div class="right-container">
+            <div class="tab-menu">
+                <button class="active">관광 거점지</button>
+                <button>대학교</button>
+                <button>카페</button>
+                <button>자치센터</button>
+            </div>
+
+            <div class="grid-container">
+                <div class="grid-item">
+                    <img src="장소1.png" alt="공학원 이미지">
+                    <div class="grid-item-text">춘천역<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소1_5.png" alt="대우관 이미지">
+                    <div class="grid-item-text">남춘천역<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소2.png" alt="연희관 이미지">
+                    <div class="grid-item-text">시외버스터미널<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소3.png" alt="중앙도서관 이미지">
+                    <div class="grid-item-text">명동거리<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소4.png" alt="학생회관 이미지">
+                    <div class="grid-item-text">춘천시청<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소5.png" alt="국립춘천박물관">
+                    <div class="grid-item-text">국립춘천박물관<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소6.png" alt="대강당 이미지">
+                    <div class="grid-item-text">레고랜드<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소7.png" alt="제1공학관 이미지">
+                    <div class="grid-item-text">조각공원<br>강원특별자치도 춘천시</div>
+                </div>
+                <div class="grid-item">
+                    <img src="장소8.png" alt="UIC 학생회실 이미지">
+                    <div class="grid-item-text">호반체육관<br>강원특별자치도 춘천시</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 (하단 영역) -->
+    <footer>
+        <div class="footer-menu">
+            <span>이용약관</span>
+            <span>개인정보처리방침</span>
+            <span>CONTACT_US</span>
+        </div>
+        <div class="footer-follow">
+            FOLLOW US
+        </div>
+    </footer>
+
+    <script>
+        // 메뉴 클릭 시 active 클래스 토글
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(event) {
+                document.querySelectorAll('.menu-item').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

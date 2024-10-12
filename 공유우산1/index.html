@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharella 이야기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #5947c0;
+            font-weight: bold;
+
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #5A9BD4;
+            font-size: 1rem;
+            padding-bottom: 5px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #7B68EE;
+        }
+
+        .menu a.active {
+            color: #6A5ACD;
+            font-weight: bold;
+        }
+
+        .menu a.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #6A5ACD;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .login-btn {
+            background-color: #6A5ACD;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #5B4EBF;
+        }
+
+        .body-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            background: linear-gradient(rgba(135, 206, 250, 0.5), rgba(106, 90, 205, 0.5)), 
+                url('상단1.png') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            height: 50vh;
+            margin-bottom: 60px;
+        }
+
+        .body-section h1 {
+            font-size: 2.5rem;
+            color: #F0F8FF;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .body-section h1 span {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .body-section-outer {
+            height: auto;
+            display: flex;
+            justify-content: center;
+            padding: 40px 0;
+            background-color: #f8f9fa;
+            margin-bottom: 50px;
+        }
+
+        .body-section-2 {
+            background: linear-gradient(90deg, #FFFAF0 0%, #E6E6FA 100%);
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 1000px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .body-section-2 h2 {
+            font-size: 1.8rem;
+            color: #4F94CD;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .body-section-2 h2 span {
+            color: #7B68EE;
+            font-weight: bold;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 60px; /* 박스 간의 간격 추가 */
+        }
+
+        .stat-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px 40px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            min-width: 100px;
+            text-align: center;
+            margin-bottom: 20px;
+            flex: 0.8;
+        }
+
+        .stat-box p {
+            font-size: 1rem;
+            color: #131212;
+            margin-bottom: 10px;
+        }
+
+        .stat-box h3 {
+            font-size: 1.5rem;
+            color: red;
+            font-weight: bold;
+        }
+
+        .body-section-3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0px 0;
+            background-color: #fff;
+            height: 50%;
+            margin-bottom: 0px;
+        }
+
+        .body-section-3-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            max-width: 1000px;
+        }
+
+        .body-section-3-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .body-section-3-text h3 {
+            font-size: 1.5rem;
+            color: #6A5ACD;
+            margin-bottom: 10px;
+        }
+
+        .body-section-3-text h2 {
+            font-size: 2rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .body-section-3-text p {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .body-section-3-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .body-section-3-image img {
+            max-width: 90%;
+            border-radius: 10px;
+        }
+
+        .body-section-shared-umbrella {
+            background-color: #fff;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .body-section-shared-umbrella-content img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .body-section-shared-umbrella-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #6A5ACD;
+        }
+
+        .body-section-shared-umbrella-content p {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .body-section-4 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+            background-color: #f0f0f0;
+            margin-bottom: 0px;
+            height: 60%;
+        }
+
+        .body-section-4-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            max-width: 1000px;
+            gap: 40px;
+            background-color: inherit;
+        }
+
+        .body-section-4-image {
+            flex: 1.1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: inherit;
+        }
+
+        .body-section-4-image img {
+            max-width: 100%;
+            height: 130%;
+            border-radius: 10px;
+        }
+
+        .body-section-4-text {
+            flex: 1.5;
+            text-align: left;
+            background-color: inherit;
+        }
+
+        .body-section-4-text h3 {
+            font-size: 1.5rem;
+            color: #6A5ACD;
+            margin-bottom: 10px;
+        }
+
+        .body-section-4-text h2 {
+            font-size: 2rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .body-section-4-text p {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* 바디 5 섹션 */
+        .body-section-5 {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            color: #333;
+            background-size: cover;
+        }
+
+        .body-section-5-overlay {
+            position: absolute;
+            text-align: center;
+            color: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .body-section-5 h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .body-section-5 h2 {
+            font-size: 2rem;
+            color: #7B68EE;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .body-section-5 p {
+            font-size: 1rem;
+            color: #333333;
+            line-height: 1.5;
+        }
+
+        footer {
+            background-color: #fff;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 30px 
+        }
+
+        .footer-menu {
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+            color: #747373;
+        }
+
+        .footer-menu span {
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .footer-follow {
+            font-size: 1.2rem;
+            color: #575555;
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .footer-menu {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .footer-follow {
+                justify-content: center;
+            }
+
+            header {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .menu {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .body-section h1 {
+                font-size: 2rem;
+            }
+
+            .body-section-2 h2 {
+                font-size: 1.5rem;
+            }
+
+            .stat-box {
+                width: 90%;
+                margin: 0 auto 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .body-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .body-section-2 h2 {
+                font-size: 1.2rem;
+            }
+
+            .stat-box h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 (상단바) -->
+    <header>
+        <div class="logo">
+            <img src="sharellarlogo.png" alt="UPbrella Logo">
+            <p>Sharella</p>
+        </div>
+        <nav class="menu">
+            <a href="index.html" class="active">Sharella 이야기</a>
+            <a href="test.html">대여소 위치</a>
+            <a href="test2.html">협업 지점 소개</a>
+            <button class="login-btn" onclick="location.href='logtest.html'">로그인</button>
+        </nav>
+    </header>
+
+    <!-- 바디 1 섹션 -->
+    <section class="body-section">
+        <h1 style="color: black;">갑작스럽게 내리는 비에<br>
+            <span style="color: rgb(224, 76, 76);">비닐 우산</span>을 구매하셨던 적이 있나요?</h1>
+    </section>
+
+    <!-- 바디 2 섹션 외부 박스 -->
+    <section class="body-section-outer">
+        <div class="body-section-2">
+            <h2>
+                쉽게 판매되고 쉽게 망가지는 <br>
+                <span>비닐 우산</span>은 대부분 매립·소각돼 <br>
+                <span>온실가스</span>를 발생시켜요.
+            </h2>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <p>국내 연간 우산 판매량</p>
+                    <h3>약 5,000만 개</h3>
+                </div>
+
+                <div class="stat-box">
+                    <p>강원도 기준 1주간 버려지는 우산의 양</p>
+                    <h3>약 3톤</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 바디 3 섹션 -->
+    <section class="body-section-3">
+        <div class="body-section-3-content">
+            <div class="body-section-3-text">
+                <h3><span style="color: #3bbe07;">환경적 임팩트 창출</span></h3>
+                <h2><span style="color: #5947c0;">Sharella</span>는 버려지는 우산 대신<br>더 나은 선택을 지향합니다.</h2>
+                <p>Sharella 이용으로 비닐우산 1개를 구매하지 않음으로써, 우리는 비닐우산이 썩는데 걸리는 100년을 줄일 수 있습니다.<br>
+                    비가 오는 날, 누구나 쉽게 할 수 있는 작은 행동이 모여 더 나은 세상을 만들 수 있다고 여깁니다.</p>
+            </div>
+            <div class="body-section-3-image">
+                <img src="비닐우산.png" alt="비닐 우산 이미지">
+            </div>
+        </div>
+    </section>
+
+    <!-- 공유우산 소개 섹션 -->
+    <section class="body-section-shared-umbrella">
+        <div class="body-section-shared-umbrella-content">
+            <img src="sharellarlogo.png" alt="Sharella 로고">
+            <h2><span style="color: #5947c0;">공유우산, Sharella란?</span></h2>
+            <p>
+                Sharella의 공유 우산 서비스는 환경을 생각하는 사람들을 위한 대여 시스템입니다. 
+                우산을 필요로 할 때 쉽게 빌리고, 사용 후 반환함으로써 더 나은 세상을 만드는 작은 실천을 할 수 있습니다.
+            </p>            
+        </div>
+    </section>
+
+    <!-- 바디 4 섹션 -->
+    <section class="body-section-4">
+        <div class="body-section-4-content">
+            <div class="body-section-4-image">
+                <img src="지역협업모음.png" alt="지역 협업 이미지">
+            </div>
+            <div class="body-section-4-text">
+                <h3>지역 공동체 의식 강화</h3>
+                <h2>강원 지역 공동체가 '공유 우산’을 매개로 <br>지역과 학생이 긴밀히 협업하는 플랫폼</h2>
+                <p>현재 원주, 춘천, 강릉 지점의 인지도를 높이고, Sharella 협업 지점 간 시너지를 창출하여 지역 상권을 활성화하고자 합니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 바디 5 섹션 -->
+    <section class="body-section-5">
+        <div class="body-section-5-overlay">
+            <h3><span style="color: #777474;">한림성심대</span></h3>
+            <h2><span style="color: #806cee;">Sharella 팀을 소개합니다!</span></h2>
+            <p>더 지속가능한 플랫폼, 더 편리한 플랫폼을 만들기 위해 저희 팀은 모였습니다.</p>
+        </div>
+    </section>
+
+    <!-- 푸터 (하단 영역) -->
+    <footer>
+        <div class="footer-menu">
+            <span>이용약관</span>
+            <span>개인정보처리방침</span>
+            <span>CONTACT_US</span>
+        </div>
+        <div class="footer-follow">
+            FOLLOW US
+        </div>
+    </footer>
+
+</body>
+</html>
